@@ -12,7 +12,6 @@
     if($result){
       $num=mysqli_num_rows($result);
       if($num > 0){
-        $login = 1;
         session_start();
         $_SESSION['username'] = $username; //set username
         //for now only direct to super-home.php
@@ -68,6 +67,7 @@
             <button type="submit" class="btn btn-primary w-100">Log in</button>
         </form>
     </div>
+    
     
   </body>
 </html>

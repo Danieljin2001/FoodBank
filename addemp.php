@@ -75,7 +75,7 @@
       }
     ?>
     <div class="d-flex justify-content-between">
-        <a href="super-home.php" class="btn btn-primary m-2">Back</a>
+        <a href="employees.php" class="btn btn-primary m-2">Back</a>
         <a href="logout.php" class="btn btn-primary m-2">Logout</a>
     </div>
 

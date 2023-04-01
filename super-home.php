@@ -21,9 +21,10 @@
 
     <h1 class="text-center mt-5">Calgary Food Bank</h1> 
     <div class="d-flex justify-content-center m-5">
-      <a href="addemp.php" class="btn btn-primary m-2">Add an employee</a>
+    <a href="employees.php" class="btn btn-primary m-2">Employees</a>
       <a href="replenishF.php" class="btn btn-primary m-2">Replenish Food inventory</a>
       <a href="replenishC.php" class="btn btn-primary m-2">Replenish Clothing inventory</a>
+      
     </div>
   </body>
   

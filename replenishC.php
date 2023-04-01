@@ -11,7 +11,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Replenish Food</title>
+    <title>Replenish Clothing</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
   </head>
   <body>
@@ -23,15 +23,16 @@
     <h1 class="text-center mt-5">Calgary Food Bank</h1> 
     <div class="container mt-5">
         <div class="d-flex justify-content-end">
-            <a href="add-food.php" class="btn btn-primary">Add a food</a>
+            <a href="add-clothe.php" class="btn btn-primary">Add a clothing</a>
         </div>
         <table class="table table-striped">
             <thead>
                 <tr>
-                <th scope="col">Name</th>
                 <th scope="col">Type</th>
-                <th scope="col">Calories</th>
-                <th scope="col">Qty</th>
+                <th scope="col">Size</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Desc</th>
+                <th scope="col">Quantity</th>
                 <th scope="col">Operation</th>
                 </tr>
             </thead>
@@ -39,23 +40,25 @@
 
                 <?php
                     $user = $_SESSION['Emp_id'];
-                    $sql = "Select fi.name, fi.qty, f.type, f.calories 
-                    from `employee` as e, `food_inventory` as fi, `food` as f, `replenish_f` as r
-                    where e.Emp_id='$user' and e.Emp_id = r.Semp_id and r.name = fi.name and fi.name = f.name";
+                    $sql = "Select ci.type, ci.size, ci.gender, ci.qty, c.description 
+                    from `employee` as e, `clothing_inventory` as ci, `clothe` as c, `replenish_c` as r
+                    where e.Emp_id='$user' and e.Emp_id = r.Semp_id and r.type = ci.type and r.size = ci.size and r.gender = ci.gender and ci.type = c.type and ci.size = c.size and ci.gender = c.gender";
                     $result=mysqli_query($con, $sql);
                     if($result){
                         while($row=mysqli_fetch_assoc($result)){
-                            $name = $row['name'];
-                            $qty = $row['qty'];
                             $type = $row['type'];
-                            $cal = $row['calories'];
+                            $size = $row['size'];
+                            $gender = $row['gender'];
+                            $qty = $row['qty'];
+                            $desc = $row['description'];
                             echo '<tr>
-                                <th scope="row">'.$name.'</th>
-                                <td>'.$type.'</td>
-                                <td>'.$cal.'</td>
+                                <th scope="row">'.$type.'</th>
+                                <td>'.$size.'</td>
+                                <td>'.$gender.'</td>
+                                <td>'.$desc.'</td>
                                 <td>'.$qty.'</td>
                                 <td>
-                                <a href="update-fqty.php?updatename='.$name.'" class="btn btn-secondary">update</a>
+                                <a href="update-cqty.php?updatetype='.$type.'&updategender='.$gender.'&updatesize='.$size.'" class="btn btn-secondary">update</a>
                                 </td>
                             </tr>
                             ';
