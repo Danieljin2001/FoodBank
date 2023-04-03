@@ -14,12 +14,20 @@
       $role = $row['role'];
       $username = $row['username'];
       $semp_id = $row['Semp_id'];
-    }
-    $sql1 = "Select * from `employee` where Emp_id = '$semp_id'";
-    $result1 = mysqli_query($con, $sql1);
-    if($result1){
-        $SFname = $row['Fname'];
-        $SLname = $row['Lname'];
+      $tableString = "Role";
+      $tableHead = "List of employees";  
+      if ($role != "Supervisor"){
+        $sql1 = "Select * from `employee` where Emp_id = '$semp_id'";
+        $result1 = mysqli_query($con, $sql1);
+        $row1=mysqli_fetch_assoc($result1);
+        if($result1){
+            $Sfname = $row1['Fname'];
+            $Slname = $row1['Lname'];
+            $Susername = $row1['username'];
+        }
+        $tableString = "Supervisor username";
+        $tableHead = "Supervisor"; 
+      }
     }
     if($role == "Supervisor"){
         $x = "super-home.php";
@@ -28,12 +36,10 @@
     else if ($role == "Front"){
         $x = "front-home.php";
         $s = $role . " Employee";
-        $i = "Supervisor: " . $SFname . " " . $SLname;
     }
     else{
         $x = "back-home.php";
         $s = $role . " Employee";
-        $i = "Supervisor: " . $SFname . " " . $SLname;
     }
 ?>
 
@@ -51,12 +57,63 @@
         <a href="logout.php" class="btn btn-primary m-2">Logout</a>
     </div>
     <h1 class="text-center mt-5">Profile</h1>
-    <div class="container mt-5 d-flex flex-column justify-content-start w-25">
+    <div class="container mt-5 d-flex flex-column justify-content-start w-50">
         <p><?php echo "Username: " . $username;?></p>
         <p><?php echo "First name: ". $fname?></p>
         <p><?php echo "Last name: " .$lname;?></p>
         <p><?php echo "Role: " . $s;?></p>
-        <p><?php echo $i;?></p>
+        <table class="table table-bordered caption-top">
+            <caption><strong><?php echo $tableHead;?></strong></caption>
+            <thead>
+                <tr>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col"><?php echo $tableString;?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                    if($role == "Supervisor"){
+                        $sql = "Select * 
+                        from `employee`
+                        where role !='Supervisor'";
+                        $result=mysqli_query($con, $sql);
+                        if($result){
+                            while($row=mysqli_fetch_assoc($result)){
+                                $fname = $row['Fname'];
+                                $lname = $row['Lname'];
+                                $role = $row['role'];
+                                $super = $row['Semp_id'];
+                                
+                                $sql1 = "Select * 
+                                from `employee`
+                                where Emp_id='$super'";
+                                $result1=mysqli_query($con, $sql1);
+                                if(!$result1){
+                                    die(mysqli_error($con));
+                                } else {
+                                    $row1=mysqli_fetch_assoc($result1);
+                                    echo '<tr>
+                                    <td>'.$fname.'</td>
+                                    <td>'.$lname.'</td>
+                                    <td>'.$role.'</td>
+                                </tr>
+                                ';
+                                }   
+                            }
+                        }
+                    }
+                    else{
+                        echo '<tr>
+                        <td>'.$Sfname.'</td>
+                        <td>'.$Slname.'</td>
+                        <td>'.$Susername.'</td>
+                        </tr>
+                        ';
+                    } 
+                ?>
+            </tbody>
+        </table>
         <div class="d-flex justify-content-center">
             <a class="btn btn-primary w-50" href="change-password.php" role="button">Change Password</a>
         </div>

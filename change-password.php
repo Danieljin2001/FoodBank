@@ -10,9 +10,13 @@
     $invalid = 0;
     $dup = 0;
     $success = 0;
+    $retryError = 0;
+    $oldError = 0;
     if(isset($_POST['change'])){
+        $old_pw_form = $_POST['old_pw_form'];
         $new_pw = $_POST['new_pw'];
-        $id = $_SESSION['Emp_id']; //supervisor is who ever is making the emp
+        $new_pw_retry = $_POST['new_pw_retry'];
+        $id = $_SESSION['Emp_id'];
         $sql = "Select * from `employee` where Emp_id = '$id'";
         $result = mysqli_query($con, $sql);
         $row=mysqli_fetch_assoc($result);
@@ -23,10 +27,17 @@
         else {
             die(mysqli_error($con));
         }
-        if(empty($new_pw) || !$result){
+        if(!$result || (empty($new_pw) && empty($new_pw_retry))){
             $invalid = 1;
-        } else {
-            if ($new_pw != $old_pw){
+        }
+        else if ($new_pw != $new_pw_retry){
+            $retryError = 1;
+        }
+        else if ($old_pw != $old_pw_form){
+            $oldError = 1;
+        }
+        else {
+            if ($new_pw != $old_pw && $new_pw_retry == $new_pw){
                 $sql1 = "update `employee` set password='$new_pw' where Emp_id = '$id'";
                 $result1 = mysqli_query($con, $sql1);
                 if ($result1){
@@ -74,15 +85,39 @@
       </div>';
       }
     ?>
+    <?php
+      if($retryError){
+        echo '<div class="alert alert-danger" role="alert">
+        <strong>Error </strong> new passwords do not match.
+      </div>';
+      }
+    ?>
+    <?php
+      if($oldError){
+        echo '<div class="alert alert-danger" role="alert">
+        <strong>Error </strong> old password does not match.
+      </div>';
+      }
+    ?>
     <div class="d-flex justify-content-between">
         <a href="profile.php" class="btn btn-primary m-2">Back</a>
         <a href="logout.php" class="btn btn-primary m-2">Logout</a>
     </div>
+    <div class="container mt-5">
+      <h5 class = "mb-3">Change password</h5>
     <form method = "post">
-        <div class="input-group mb-5">
-            <input type="text" class="form-control" placeholder="Enter New password" name="new_pw">
-            <button class="btn btn-outline-primary" type="submit" name="change">Change Password</button>
-        </div>
+      <div class="mb-3">
+          <label class="form-label">Enter old password</label>
+          <input type="password" class="form-control" placeholder="Old password" name="old_pw_form">
+          <label class="form-label mt-3">Enter new password</label>
+          <input type="password" class="form-control" placeholder="New password" name="new_pw">
+          <label class="form-label mt-3">Enter new password again</label>
+          <input type="password" class="form-control" placeholder="New password" name="new_pw_retry">
+          <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-primary" type="submit" name="change">Change Password</button>
+          </div>  
+      </div>
     </form>
+    </div>
   </body>
 </html>
