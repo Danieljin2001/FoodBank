@@ -53,14 +53,14 @@
                 <th scope="col">Name</th>
                 <th scope="col">Type</th>
                 <th scope="col">Calories</th>
-                <th scope="col">Qty</th>
+                <th scope="col">Quantity</th>
                 <th scope="col">Operation</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                     $user = $_SESSION['Emp_id'];
-                    $sql = "Select fi.name, fi.qty, f.type, f.calories 
+                    $sql = "Select distinct fi.name, fi.qty, f.type, f.calories 
                     from `employee` as e, `food_inventory` as fi, `food` as f, `replenish_f` as r
                     where e.Emp_id='$user' and e.Emp_id = r.Semp_id and r.name = fi.name and fi.name = f.name";
                     $result=mysqli_query($con, $sql);
