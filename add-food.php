@@ -4,6 +4,18 @@
         header('location:signin.php');
     }
 ?>
+<?php
+  //function to create guid https://stackoverflow.com/questions/21671179/how-to-generate-a-new-guid#:~:text=php%20function%20guid()%7B%20if,)%2C%204))%3B%20%7D%20%3F%3E
+  function GUID()
+  {
+      if (function_exists('com_create_guid') === true)
+      {
+          return trim(com_create_guid(), '{}');
+      }
+  
+      return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+  }  
+?>
 
 <?php
     include 'connect.php';
@@ -35,9 +47,18 @@
                     values ('$id', '$name')";
                     $result1 =mysqli_query($con, $sql1); //insert into replenish_f second
 
-                    $sql2 ="insert into `food` (name, type, calories)
-                    values ('$name', '$type', '$calories')";
-                    $result2 =mysqli_query($con, $sql2); //insert into food third
+                    $result2;
+                    for($x=0; $x < $qty; $x++){ //insert into food third
+                      $f_id = GUID();
+                      $sql2 ="insert into `food` (Food_id, name, type, calories)
+                      values ('$f_id','$name', '$type', '$calories')";
+                      $result2 =mysqli_query($con, $sql2);
+                      if(!$result2){
+                        die(mysqli_error($con));
+                        break;
+                      }
+                    }
+                     
                     
 
                     if($result && $result1 && $result2){

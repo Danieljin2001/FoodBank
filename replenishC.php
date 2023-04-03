@@ -31,7 +31,7 @@
                 <th scope="col">Type</th>
                 <th scope="col">Size</th>
                 <th scope="col">Gender</th>
-                <th scope="col">Desc</th>
+                <th scope="col">Description</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Operation</th>
                 </tr>
@@ -40,7 +40,7 @@
 
                 <?php
                     $user = $_SESSION['Emp_id'];
-                    $sql = "Select ci.type, ci.size, ci.gender, ci.qty, c.description 
+                    $sql = "Select distinct ci.type, ci.size, ci.gender, ci.qty, c.description 
                     from `employee` as e, `clothing_inventory` as ci, `clothe` as c, `replenish_c` as r
                     where e.Emp_id='$user' and e.Emp_id = r.Semp_id and r.type = ci.type and r.size = ci.size and r.gender = ci.gender and ci.type = c.type and ci.size = c.size and ci.gender = c.gender";
                     $result=mysqli_query($con, $sql);
