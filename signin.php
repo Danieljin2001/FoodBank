@@ -54,7 +54,7 @@
       }
     ?>
     <h1 class="text-center mt-5">Calgary Food Bank</h1> 
-    <div class="container mt-5">
+    <div class="container mt-5 w-25">
         <form action="signin.php" method="post">
             <div class="mb-3">
                 <label class="form-label">Username</label>
@@ -64,7 +64,9 @@
                 <label class="form-label">Password</label>
                 <input type="password" class="form-control" placeholder="Enter your password" name="password">
             </div>
-            <button type="submit" class="btn btn-primary w-100">Log in</button>
+            <div class="d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary w-75">Log in</button>
+            </div>
         </form>
     </div>
     

@@ -4,6 +4,7 @@
     if(!isset($_SESSION['username']) || $_SESSION['role'] == "Back"){
         header('location:signin.php');
     }
+    $emp=$_SESSION['Emp_id'];
 ?>
 
 <!doctype html>
@@ -49,7 +50,7 @@
                                 <td>'.$cal.'</td>
                                 <td>'.$qty.'</td>
                                 <td>';
-                            $sql1 = "Select * from `ordertemp` where name='$name'";
+                            $sql1 = "Select * from `ordertemp$emp` where name='$name'";
                             $result1 = mysqli_query($con, $sql1);
                             if($result1){ //check if food exists in order
                                 $num=mysqli_num_rows($result1);
