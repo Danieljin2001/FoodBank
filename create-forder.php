@@ -43,23 +43,28 @@
                 $member = $row['member'];
                 $num = $row['num'];
                 $cal = $row['cal'];
-                $member_id = GUID();
-                $sql1;
-                if($member == "adult_m"){
-                    $sql1 = "insert into `adult` (Fam_id, adult_id, cals_needed, gender) 
-                    VALUES ('$fam_id', '$member_id', '$cal', 'M')";
-                } else if ($member == "adult_f"){
-                    $sql1 = "insert into `adult` (Fam_id, adult_id, cals_needed, gender) 
-                    VALUES ('$fam_id', '$member_id', '$cal', 'F')";
-                } else {
-                    $sql1 = "insert into `child` (Fam_id, child_id, cals_needed) 
-                    VALUES ('$fam_id', '$member_id', '$cal')";
+                $counter = 0;
+                while($counter < $num){
+                    $member_id = GUID();
+                    $sql1;
+                    if($member == "adult_m"){
+                        $sql1 = "insert into `adult` (Fam_id, adult_id, cals_needed, gender) 
+                        VALUES ('$fam_id', '$member_id', '$cal', 'M')";
+                    } else if ($member == "adult_f"){
+                        $sql1 = "insert into `adult` (Fam_id, adult_id, cals_needed, gender) 
+                        VALUES ('$fam_id', '$member_id', '$cal', 'F')";
+                    } else {
+                        $sql1 = "insert into `child` (Fam_id, child_id, cals_needed) 
+                        VALUES ('$fam_id', '$member_id', '$cal')";
+                    }
+                    $result1 = mysqli_query($con, $sql1);
+                    if(!$result1){
+                        die(mysqli_error($con));
+                        break;
+                    }
+                    $counter += 1;
                 }
-                $result1 = mysqli_query($con, $sql1);
-                if(!$result1){
-                    die(mysqli_error($con));
-                    break;
-                }
+                
             }
         }
     } else {
@@ -137,5 +142,15 @@
 ?>
 
 <?php
-    header("location:finished.php?o=$order_id&f=$fam_id");
+    $sql = "DROP TABLE IF EXISTS ordertemp$id";
+    if(mysqli_query($con, $sql)){
+        $sql1 = "DROP TABLE IF EXISTS familytemp$id";
+        if(mysqli_query($con, $sql1)){
+            header("location:finished.php?o=$order_id&f=$fam_id");
+        } else {
+            die(mysqli_error($con));
+        }
+    } else {
+        die(mysqli_error($con));
+    }
 ?>
