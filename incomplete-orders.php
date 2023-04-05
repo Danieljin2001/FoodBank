@@ -1,7 +1,7 @@
 <?php
     include 'connect.php';
     session_start();
-    if(!isset($_SESSION['username'])){
+    if(!isset($_SESSION['username']) || $_SESSION['role'] == "Front"){
         header('location:signin.php');
     }
 ?>
@@ -13,7 +13,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Replenish Food</title>
+    <title>incomplete Orders</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
   </head>
   <body>
@@ -38,20 +38,20 @@
                     $user = $_SESSION['Emp_id'];
                     $sql = "Select O.order_no, O.picked_up, O.Bemp_id, O.Type
                             From `Order` as O
-                            WHERE O.picked_up = 0"
+                            WHERE O.picked_up = 0";
                     $result=mysqli_query($con, $sql);
+
                     if($result){
                         while($row=mysqli_fetch_assoc($result)){
                             $orderNo = $row['order_no'];
                             $pickedUp = $row['picked_up'];
-                            $bempId = $row['bemp_id'];
-                            $type = $row['type'];
+                            $bempId = $row['Bemp_id'];
+                            $type = $row['Type'];
                             echo '<tr>
                                 <th scope="row">'.$orderNo.'</th>
                                 <td>'.$pickedUp.'</td>
                                 <td>'.$bempId.'</td>
                                 <td>'.$type.'</td>
-                                <td>
                                 </td>
                             </tr>
                             ';
