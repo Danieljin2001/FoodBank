@@ -27,7 +27,19 @@
                 $num=mysqli_num_rows($result);
                 if($num > 0) {
                     $dup = 1;
-                } else {
+                } 
+                else if ($role == "Supervisor"){
+                  $sql ="insert into `employee` (Fname, Lname, Semp_id, username, password, role)
+                    values ('$fname', '$lname', NULL, '$user', '$pw', '$role')";
+                    $result =mysqli_query($con, $sql);
+
+                    if($result){
+                        $success = 1;
+                    } else {
+                        die(mysqli_error($con));
+                    }
+                }
+                else {
                     $sql ="insert into `employee` (Fname, Lname, Semp_id, username, password, role)
                     values ('$fname', '$lname', '$id', '$user', '$pw', '$role')";
                     $result =mysqli_query($con, $sql);
