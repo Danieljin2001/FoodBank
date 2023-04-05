@@ -29,8 +29,15 @@
 ?>
 <?php
     if(isset($_POST['change'])){
-        $role1 = $_POST['change-role']; 
-        $sql1 = "update `employee` set role='$role1' where Emp_id='$id'";
+        $role1 = $_POST['change-role'];
+        if ($role1 == "Supervisor"){
+          $sql0 = "update `employee` set Semp_id = NULL where Emp_id='$id'";
+          $result0 = mysqli_query($con, $sql0);
+          $sql1 = "update `employee` set role='$role1' where Emp_id='$id'";
+        }
+        else{
+          $sql1 = "update `employee` set role='$role1' where Emp_id='$id'";
+        } 
         $result1 = mysqli_query($con, $sql1);
         $success = 1;
     }
