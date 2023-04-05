@@ -1,6 +1,9 @@
 <?php
     include 'connect.php';
     session_start();
+    if(!isset($_SESSION['username']) || $_SESSION['role'] != "Supervisor"){
+      header('location:signin.php');
+    }
     $username = $_SESSION['username'];
     $sql0 = $sql="Select *
     from `employee`
