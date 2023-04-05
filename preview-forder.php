@@ -160,7 +160,7 @@
         
         <div class="d-flex justify-content-between mt-5  mb-5">
                 <a href="start-forder.php?home=0" class="btn btn-secondary">Edit order</a> 
-                <a href="preview-order.php" class="btn btn-primary">Confirm order</a>
+                <a href="create-forder.php" class="btn btn-primary">Confirm order</a>
         </div>
          
     </div>

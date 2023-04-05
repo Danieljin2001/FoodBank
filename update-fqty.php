@@ -32,13 +32,11 @@
 
     if(isset($_POST['update'])){
       $qty = $_POST['qty'];
-
       $update_qty = $qty-$prev_qty;
 
       if($update_qty > 0){ //adding
         $result2;
-        $sql="update `food_inventory` set qty='$qty' where name='$name'";
-        $result = mysqli_query($con, $sql);
+        
 
         $sql1="select *
         from `food`
@@ -57,7 +55,17 @@
             break;
           }
         }
-        if($result && $result1 && $result2){
+
+        $sql3="select COUNT(name)
+        from `food`
+        where name='$name' and Forder_no IS NULL";
+        $result3 = mysqli_query($con, $sql3);
+        $count=mysqli_fetch_column($result3);
+
+        $sql="update `food_inventory` set qty='$count' where name='$name'";
+        $result = mysqli_query($con, $sql);
+
+        if($result && $result1 && $result2 && $result3){
           header('location:replenishF.php');
         } else {
           die(mysqli_error($con));
@@ -67,7 +75,15 @@
         header('location:replenishF.php');
       }else{ //minus
         $update_qty *= -1;
-        if($update_qty == $prev_qty){ //when its 0
+        
+        $sql3="select COUNT(name)
+        from `food`
+        where name='$name'";
+        $result3 = mysqli_query($con, $sql3);
+        $count=mysqli_fetch_column($result3);
+
+
+        if($update_qty == $prev_qty && $count==$prev_qty){ //when its 0
           $sql="delete from `food` where name='$name' limit $update_qty";
           $result = mysqli_query($con, $sql);
           $sql1="delete from `replenish_f` where name='$name'";
@@ -81,15 +97,25 @@
             die(mysqli_error($con));
           }
         } else{
-          $sql="update `food_inventory` set qty='$qty' where name='$name'";
-          $result = mysqli_query($con, $sql);
+          
   
-          $sql1="delete from `food` where name='$name' limit $update_qty";
+          $sql1="delete from `food` where name='$name' and Forder_no IS NULL limit $update_qty";
           $result1 = mysqli_query($con, $sql1);
-          if($result && $result1){
+          
+          $sql3="select COUNT(name)
+          from `food`
+          where name='$name' and Forder_no IS NULL";
+          $result3 = mysqli_query($con, $sql3);
+          $count=mysqli_fetch_column($result3);
+
+          $sql="update `food_inventory` set qty='$count' where name='$name'";
+          $result = mysqli_query($con, $sql);
+
+
+          if($result && $result1 && $result3){
             header('location:replenishF.php');
           } else {
-            die(mysqli_error($conn));
+            die(mysqli_error($con));
           }
         } 
       }

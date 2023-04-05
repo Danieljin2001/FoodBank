@@ -254,7 +254,7 @@
                                         
 
                                         $x = 1;
-                                        while($x < $invent_quantity){
+                                        while($x <= $invent_quantity){
                                             if($x == $order_qty)
                                                 echo "<option selected value='$x'>$x</option>";
                                             else
@@ -317,7 +317,7 @@
             </div>
             <div class="d-flex justify-content-between mt-5 mb-5">
                 <a href="front-home.php" class="btn btn-danger">Cancel order</a>
-                <a href="preview-order.php" class="btn btn-primary
+                <a href="preview-forder.php" class="btn btn-primary
                 <?php
                     $sql = "Select * from `ordertemp$emp`";
                     $result = mysqli_query($con, $sql);
