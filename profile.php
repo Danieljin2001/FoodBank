@@ -76,7 +76,7 @@
                     if($role == "Supervisor"){
                         $sql = "Select * 
                         from `employee`
-                        where role !='Supervisor'";
+                        where role !='Supervisor' and Semp_id = '$id'";
                         $result=mysqli_query($con, $sql);
                         if($result){
                             while($row=mysqli_fetch_assoc($result)){
@@ -84,22 +84,12 @@
                                 $lname = $row['Lname'];
                                 $role = $row['role'];
                                 $super = $row['Semp_id'];
-                                
-                                $sql1 = "Select * 
-                                from `employee`
-                                where Emp_id='$super'";
-                                $result1=mysqli_query($con, $sql1);
-                                if(!$result1){
-                                    die(mysqli_error($con));
-                                } else {
-                                    $row1=mysqli_fetch_assoc($result1);
-                                    echo '<tr>
-                                    <td>'.$fname.'</td>
-                                    <td>'.$lname.'</td>
-                                    <td>'.$role.'</td>
+                                echo '<tr>
+                                <td>'.$fname.'</td>
+                                <td>'.$lname.'</td>
+                                <td>'.$role.'</td>
                                 </tr>
-                                ';
-                                }   
+                                ';   
                             }
                         }
                     }

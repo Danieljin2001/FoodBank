@@ -1,14 +1,23 @@
 <?php
+    include 'connect.php';
     session_start();
     if(!isset($_SESSION['username']) || $_SESSION['role'] != "Supervisor"){
         header('location:signin.php');
     }
+    $username = $_SESSION['username'];
+    $sql0 = "Select *
+    from `employee`
+    where username = '$username'";
+    $result0=mysqli_query($con, $sql0);
+    $row0=mysqli_fetch_assoc($result0);
+    $fname0 = $row0['Fname'];
+    $lname0 = $row0['Lname'];
+    $role0 = $row0['role'];
 ?>
 
 
 
 <?php
-    include 'connect.php';
     $success = 0;
     $invalid = 0;
     $superuser;
@@ -69,6 +78,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
   </head>
   <body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <?php
       if($success){
         echo '<div class="alert alert-success" role="alert">
@@ -84,8 +94,17 @@
       }
     ?>
     <div class="d-flex justify-content-between">
-        <a href="employees.php" class="btn btn-primary m-2">Back</a>
-        <a href="logout.php" class="btn btn-primary m-2">Logout</a>
+      <a href="employees.php" class="btn btn-primary m-2">Back</a>  
+        <div class="dropdown m-2">
+          <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          <?php echo $fname0 . " " . $lname0;?>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><span class="dropdown-item-text"><strong><?php echo $role0;?></strong></span></li>
+            <li><a class="dropdown-item" href="profile.php">Profile</a></li>
+            <li><a class="dropdown-item" style = "color: red;" href="logout.php">Logout</a></li>
+          </ul>
+        </div>  
     </div>
 
     <h1 class="text-center mt-5">Calgary Food Bank</h1> 

@@ -116,12 +116,13 @@
 
                 <div class="form-text mt-4">Password is automatically set to: 123</div>
                 <div class="form-text">You will be this employee's supervisor</div>
-
+                <div class="form-text">If you are adding a supervisor, then no one will be your supervisor</div>
                 <label class="form-label mt-4">Role</label>
 
                 <select name="rol" class="form-select" multiple aria-label="multiple select example">
                 <option selected value="Front">Front employee</option>
                 <option value="Back">Back employee</option>
+                <option value= "Supervisor">Supervisor</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary w-100" name="create">Create</button>
