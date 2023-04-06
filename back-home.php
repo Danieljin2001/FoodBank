@@ -42,6 +42,11 @@
     </div>
 
     <h1 class="text-center mt-5">Calgary Food Bank BACK</h1> 
+    <div class="d-flex justify-content-center m-5">
+      <a href="unassigned-orders.php" class="btn btn-primary m-2">List of unassigned orders</a>
+      <a href="incomplete-orders.php" class="btn btn-primary m-2">List of incomplete orders</a>
+      <a href="complete-orders.php" class="btn btn-primary m-2">List of complete orders</a>
+    </div>
 
   </body>
 </html>
