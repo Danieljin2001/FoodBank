@@ -75,8 +75,8 @@
 
 <!-- Inserting Order -->
 <?php
-    $sql = "insert into `Order` (Picked_up, Bemp_id, type)
-    values (0, NULL, 'Food')";
+    $sql = "insert into `Order` (Picked_up, Bemp_id, type, Ready_for_pick_up)
+    values (0, NULL, 'Food', 0)";
     $order_id;
     if (mysqli_query($con, $sql)) {
         $order_id = mysqli_insert_id($con);
