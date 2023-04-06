@@ -57,11 +57,12 @@
           }
         }
 
-        $sql3="select COUNT(Clothe_id)
+        $sql3="select COUNT(Clothe_id) as qty 
         from `clothe`
         where type='$type' and size='$size' and gender = '$gender' and Corder_no IS NULL";
         $result3 = mysqli_query($con, $sql3);
-        $count=mysqli_fetch_column($result3);
+        $row3=mysqli_fetch_assoc($result3);
+        $count = $row3['qty'];
 
         $sql="update `clothing_inventory` set qty='$count' where type='$type' and size='$size' and gender = '$gender'";
         $result = mysqli_query($con, $sql);
@@ -79,11 +80,12 @@
       }else{ //minus
         $update_qty *= -1;
 
-        $sql3="select COUNT(Clothe_id)
+        $sql3="select COUNT(Clothe_id) as qty
         from `clothe`
         where type='$type' and size='$size' and gender = '$gender'";
         $result3 = mysqli_query($con, $sql3);
-        $count=mysqli_fetch_column($result3);
+        $row3=mysqli_fetch_assoc($result3);
+        $count = $row3['qty'];
 
         if($update_qty == $prev_qty && $count==$prev_qty){ //when its 0
           $sql="delete from `clothe` 
@@ -109,11 +111,12 @@
           limit $update_qty";
           $result1 = mysqli_query($con, $sql1);
 
-          $sql3="select COUNT(Clothe_id)
+          $sql3="select COUNT(Clothe_id) as qty 
           from `clothe`
           where type='$type' and size='$size' and gender = '$gender' and Corder_no IS NULL";
           $result3 = mysqli_query($con, $sql3);
-          $count=mysqli_fetch_column($result3);
+          $row3=mysqli_fetch_assoc($result3);
+          $count = $row3['qty'];
 
           $sql="update `clothing_inventory` set qty='$count' 
           where type='$type' and size='$size' and gender = '$gender'";

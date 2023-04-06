@@ -55,18 +55,20 @@
     $date=$row1['date'];
     $time=$row1['time'];
 
-    $sql2 ="Select count(fam_id) from `child` where `Fam_id`='$fam_id'";
+    $sql2 ="Select count(fam_id) as x from `child` where `Fam_id`='$fam_id'";
     $result2 = mysqli_query($con, $sql2);
-    $child_num =mysqli_fetch_column($result2);
+    $row2 =mysqli_fetch_assoc($result2);
+    $child_num = $row2['x'];
 
-    $sql3 ="Select count(fam_id) from `adult` where `Fam_id`='$fam_id' and `gender`='M'";
+    $sql3 ="Select count(fam_id) as x from `adult` where `Fam_id`='$fam_id' and `gender`='M'";
     $result3 = mysqli_query($con, $sql3);
-    $adult_m_num =mysqli_fetch_column($result3);
+    $row3 =mysqli_fetch_assoc($result3);
+    $adult_m_num = $row3['x'];
 
-    $sql4 ="Select count(fam_id) from `adult` where `Fam_id`='$fam_id' and `gender`='F'";
+    $sql4 ="Select count(fam_id) as x from `adult` where `Fam_id`='$fam_id' and `gender`='F'";
     $result4 = mysqli_query($con, $sql4);
-    $adult_f_num =mysqli_fetch_column($result4);
-
+    $row4 =mysqli_fetch_assoc($result4);
+    $adult_f_num = $row4['x'];
 
     $total_members =  $child_num + $adult_f_num + $adult_m_num;
     $total_fam_cal = ($child_num * 1600)+ ($adult_f_num*2000) + ($adult_m_num*2500);
