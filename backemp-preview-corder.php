@@ -43,7 +43,6 @@
     $adult_m_num = 0;
     $adult_f_num = 0;
     $child_num = 0;
-    $total_fam_cal = 0;
     $total_members = 0;
 
     $sql1 ="Select * from `orders` where `Order_no`='$order_no'";
@@ -71,17 +70,16 @@
     $adult_f_num = $row4['x'];
 
     $total_members =  $child_num + $adult_f_num + $adult_m_num;
-    $total_fam_cal = ($child_num * 1600)+ ($adult_f_num*2000) + ($adult_m_num*2500);
 
 ?>
 
 <?php
-    $total_order_cals = 0;
-    $sql = "Select * from `food` where `Forder_no`='$order_no'";
+    $total_num_of_clothes = 0;
+    $sql = "Select COUNT(clothe_id) as qty from `clothe` where `Corder_no`='$order_no'";
     $result=mysqli_query($con, $sql);
     if($result){
         while($row=mysqli_fetch_assoc($result)){
-            $total_order_cals += $row['calories'];
+            $total_num_of_clothes  += $row['qty'];
         }
     } else { 
         die(mysqli_error($con));
@@ -167,7 +165,6 @@
             <label>Adult females: <strong><?php echo $adult_f_num ?></strong></label>
             <label>Children: <strong><?php echo $child_num ?></strong></label>
             <label>Total number of family members: <strong><?php echo $total_members ?></strong></label>
-            <label>Total calories for family: <strong><?php echo $total_fam_cal ?> calories</strong></label>
         </div>
 
         
@@ -176,29 +173,30 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                <th scope="col">Name</th>
                 <th scope="col">Type</th>
-                <th scope="col">Calories</th>
+                <th scope="col">Size</th>
+                <th scope="col">Gender</th>
                 <th scope="col">Quantity</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                    $sql = "Select f.name, f.type, f.calories ,COUNT(f.name)
-                    from `food` as f
-                    where f.Forder_no = $order_no
-                    GROUP BY f.name";
+                    $sql = "Select c.type, c.size, c.gender ,COUNT(c.clothe_id)
+                    from `clothe` as c
+                    where c.corder_no = $order_no
+                    GROUP BY c.type,c.size, c.gender 
+                    ";
                     $result=mysqli_query($con, $sql);
                     if($result){
                         while($row=mysqli_fetch_assoc($result)){
-                            $name = $row['name'];
                             $type = $row['type'];
-                            $calories = $row['calories'];
-                            $qty = $row['COUNT(f.name)'];
+                            $size = $row['size'];
+                            $gender = $row['gender'];
+                            $qty = $row['COUNT(c.clothe_id)'];
                             echo '<tr>
-                                <th scope="row">'.$name.'</th>
-                                <td>'.$type.'</td>
-                                <td>'.$calories.'</td>
+                                <th scope="row">'.$type.'</th>
+                                <td>'.$size.'</td>
+                                <td>'.$gender.'</td>
                                 <td>'.$qty.'</td>
                             </tr>
                             ';
@@ -210,7 +208,8 @@
                 ?>
             </tbody>
         </table>
-        <label>Total calories for order: <strong><?php echo $total_order_cals ?> calories</strong></label>
+        
+        <label>Total number of clothing ordered: <strong><?php echo $total_num_of_clothes ?></strong></label>
         
         <div class="d-flex justify-content-between mt-5  mb-5">
                 <a href="<?php echo $page?>-orders.php" class="btn btn-secondary">Back</a>

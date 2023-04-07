@@ -45,7 +45,7 @@
     <div class="d-flex justify-content-center m-5">
       <a href="unassigned-orders.php" class="btn btn-primary m-2">Unassigned orders</a>
       <a href="incomplete-orders.php" class="btn btn-primary m-2">Orders assigned to me</a>
-      <a href="" class="btn btn-primary m-2">Orders ready for pick up</a>
+      <a href="pickup-ready-orders.php" class="btn btn-primary m-2">Orders ready for pick up</a>
       <a href="complete-orders.php" class="btn btn-primary m-2">Orders completed and picked up</a>
     </div>
 

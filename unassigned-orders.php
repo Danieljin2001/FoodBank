@@ -45,15 +45,27 @@
                             $bempId = $row['Bemp_id'];
                             $type = $row['Type'];
                             $function = "assignOrder('$orderNo');";
-                            echo '<tr>
-                                <th scope="row">'.$orderNo.'</th>
-                                <td>'.$bempId.'</td>
-                                <td>'.$type.'</td>
-                                <td> <a href="backemp-preview-forder.php?ordNo='.$orderNo.'&page=unassigned" class="btn btn-secondary">Preview Order</a>
-                                 <a href="assign-order-back.php?ordNo='.$orderNo.' " class="btn btn-secondary">Assign to me</a>
-                                </td>
-                            </tr>
-                            ';
+                            if ($type == "Food") {
+                                echo '<tr>
+                                    <th scope="row">'.$orderNo.'</th>
+                                    <td>'.$bempId.'</td>
+                                    <td>'.$type.'</td>
+                                    <td> <a href="backemp-preview-forder.php?ordNo='.$orderNo.'&page=unassigned" class="btn btn-secondary">Preview Order</a>    
+                                    <a href="assign-order-back.php?ordNo='.$orderNo.' " class="btn btn-secondary">Assign to me</a>
+                                    </td>
+                                </tr>
+                                ';
+                            } else {
+                                echo '<tr>
+                                    <th scope="row">'.$orderNo.'</th>
+                                    <td>'.$bempId.'</td>
+                                    <td>'.$type.'</td>
+                                    <td> <a href="backemp-preview-corder.php?ordNo='.$orderNo.'&page=unassigned" class="btn btn-secondary">Preview Order</a>    
+                                    <a href="assign-order-back.php?ordNo='.$orderNo.' " class="btn btn-secondary">Assign to me</a>
+                                    </td>
+                                </tr>
+                                ';
+                            }
                         }
                     }
                 ?>
