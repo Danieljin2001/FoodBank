@@ -56,11 +56,12 @@
           }
         }
 
-        $sql3="select COUNT(name)
+        $sql3="select COUNT(name) as qty
         from `food`
         where name='$name' and Forder_no IS NULL";
         $result3 = mysqli_query($con, $sql3);
-        $count=mysqli_fetch_column($result3);
+        $row3=mysqli_fetch_assoc($result3);
+        $count = $row3['qty'];
 
         $sql="update `food_inventory` set qty='$count' where name='$name'";
         $result = mysqli_query($con, $sql);
@@ -76,11 +77,12 @@
       }else{ //minus
         $update_qty *= -1;
         
-        $sql3="select COUNT(name)
+        $sql3="select COUNT(name) as qty 
         from `food`
         where name='$name'";
         $result3 = mysqli_query($con, $sql3);
-        $count=mysqli_fetch_column($result3);
+        $row3=mysqli_fetch_assoc($result3);
+        $count = $row3['qty'];
 
 
         if($update_qty == $prev_qty && $count==$prev_qty){ //when its 0
@@ -102,11 +104,12 @@
           $sql1="delete from `food` where name='$name' and Forder_no IS NULL limit $update_qty";
           $result1 = mysqli_query($con, $sql1);
           
-          $sql3="select COUNT(name)
+          $sql3="select COUNT(name) as qty 
           from `food`
           where name='$name' and Forder_no IS NULL";
           $result3 = mysqli_query($con, $sql3);
-          $count=mysqli_fetch_column($result3);
+          $row3=mysqli_fetch_assoc($result3);
+          $count = $row3['qty'];
 
           $sql="update `food_inventory` set qty='$count' where name='$name'";
           $result = mysqli_query($con, $sql);

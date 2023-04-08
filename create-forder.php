@@ -75,8 +75,8 @@
 
 <!-- Inserting Order -->
 <?php
-    $sql = "insert into `Order` (Picked_up, Bemp_id, type)
-    values (0, NULL, 'Food')";
+    $sql = "insert into `Order` (Picked_up, Bemp_id, type, Ready_for_pick_up)
+    values (0, NULL, 'Food', 0)";
     $order_id;
     if (mysqli_query($con, $sql)) {
         $order_id = mysqli_insert_id($con);
@@ -129,11 +129,12 @@
                     die(mysqli_error($con));
                     break;
                 }
-                $sql4="select COUNT(name)
+                $sql4="select COUNT(name) as qty
                 from `food`
                 where name='$name' and Forder_no IS NULL";
                 $result3 = mysqli_query($con, $sql4);
-                $count=mysqli_fetch_column($result3);
+                $row3=mysqli_fetch_assoc($result3);
+                $count = $row3['qty'];
 
                 $sql5="update `food_inventory` set qty='$count' where name='$name'";
                 $result4 = mysqli_query($con, $sql5);
