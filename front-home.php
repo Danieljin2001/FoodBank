@@ -45,7 +45,7 @@
     <h1 class="text-center mt-5">Calgary Food Bank</h1> 
     <div class="d-flex justify-content-center m-5">
       <a href="start-forder.php?home=1" class="btn btn-primary m-2">Start a food order</a>
-      <a href="start-corder.php" class="btn btn-primary m-2">Start a clothing order</a>
+      <a href="start-corder.php?home=1" class="btn btn-primary m-2">Start a clothing order</a>
     </div>
   </body>
   

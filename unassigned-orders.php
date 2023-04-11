@@ -27,41 +27,45 @@
             <thead>
                 <tr>
                 <th scope="col">Order no</th>
-                <th scope="col">Back employee id</th>
+                <th scope="col">Family id</th>
+                <th scope="col">Date</th>
                 <th scope="col">Type</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                     $user = $_SESSION['Emp_id'];
-                    $sql = "Select O.order_no, O.picked_up, O.Bemp_id, O.Type
-                            From `Order` as O
-                            WHERE O.Bemp_id is NULL";
+                    $sql = "Select *
+                            From `Order` as O, `orders` as os
+                            WHERE O.Bemp_id is NULL and os.order_no = o.order_no";
                     $result=mysqli_query($con, $sql);
                    
                     if($result){
                         while($row=mysqli_fetch_assoc($result)){
-                            $orderNo = $row['order_no'];
-                            $bempId = $row['Bemp_id'];
-                            $type = $row['Type'];
-                            $function = "assignOrder('$orderNo');";
+                            $orderNo = $row['Order_no'];
+                            $Fam_id = $row['Fam_id'];
+                            $date = $row['date'];
+                            $time = $row['time'];
+                            $type = $row['type'];
                             if ($type == "Food") {
                                 echo '<tr>
                                     <th scope="row">'.$orderNo.'</th>
-                                    <td>'.$bempId.'</td>
+                                    <td>'.$Fam_id.'</td>
+                                    <td>'.$date.' '.$time.'</td>
                                     <td>'.$type.'</td>
                                     <td> <a href="backemp-preview-forder.php?ordNo='.$orderNo.'&page=unassigned" class="btn btn-secondary">Preview Order</a>    
-                                    <a href="assign-order-back.php?ordNo='.$orderNo.' " class="btn btn-secondary">Assign to me</a>
+                                    <a href="assign-order-back.php?ordNo='.$orderNo.' " class="btn btn-primary">Assign to me</a>
                                     </td>
                                 </tr>
                                 ';
                             } else {
                                 echo '<tr>
                                     <th scope="row">'.$orderNo.'</th>
-                                    <td>'.$bempId.'</td>
+                                    <td>'.$Fam_id.'</td>
+                                    <td>'.$date.' '.$time.'</td>
                                     <td>'.$type.'</td>
                                     <td> <a href="backemp-preview-corder.php?ordNo='.$orderNo.'&page=unassigned" class="btn btn-secondary">Preview Order</a>    
-                                    <a href="assign-order-back.php?ordNo='.$orderNo.' " class="btn btn-secondary">Assign to me</a>
+                                    <a href="assign-order-back.php?ordNo='.$orderNo.' " class="btn btn-primary">Assign to me</a>
                                     </td>
                                 </tr>
                                 ';

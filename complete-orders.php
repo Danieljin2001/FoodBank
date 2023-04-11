@@ -27,35 +27,66 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                <th scope="col">Order_no</th>
-                <th scope="col">Picked_up</th>
-                <th scope="col">Bemp_id</th>
+                <th scope="col">Order no</th>
+                <th scope="col">Family id</th>
+                <th scope="col">Picked up</th>
+                <th scope="col">Completed</th>
+                <th scope="col">Date</th>
                 <th scope="col">Type</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                     $user = $_SESSION['Emp_id'];
-                    $sql = "Select O.order_no, O.picked_up, O.Bemp_id, O.Type
-                            From `Order` as O
-                            WHERE O.picked_up = 1";
+                    $sql = "Select *
+                            From `Order` as o, `Orders` as os
+                            WHERE o.picked_up = 1 and os.order_no = o.order_no";
                     $result=mysqli_query($con, $sql);
 
                     if($result){
                         while($row=mysqli_fetch_assoc($result)){
-                            $orderNo = $row['order_no'];
-                            $pickedUp = $row['picked_up'];
-                            $bempId = $row['Bemp_id'];
-                            $type = $row['Type'];
-                            echo '<tr>
-                                <th scope="row">'.$orderNo.'</th>
-                                <td>'.$pickedUp.'</td>
-                                <td>'.$bempId.'</td>
-                                <td>'.$type.'</td>
-                                <td> <a href="backemp-preview-forder.php?ordNo='.$orderNo.'&page=complete"" class="btn btn-secondary">Preview Order</a>
-                                </td>
-                            </tr>
-                            ';
+                            $orderNo = $row['Order_no'];
+                            $pickedUp = $row['Picked_up'];
+                            $completed = $row['Ready_for_pick_up'];
+                            $Fam_id = $row['Fam_id'];
+                            $date = $row['date'];
+                            $time = $row['time'];
+                            $type = $row['type'];
+                            $p = "No";
+                            $c = "No";
+                            if($pickedUp){
+                                $p = "Yes";
+                            }
+                            if($completed){
+                                $c = "Yes";
+                            }
+                            
+                            if ($type == "Food") {
+                                echo '<tr>
+                                    <th scope="row">'.$orderNo.'</th>
+                                    <td>'.$Fam_id.'</td>
+                                    <td>'.$p.'</td>
+                                    <td>'.$c.'</td>
+                                    <td>'.$date.' '.$time.'</td>
+                                    <td>'.$type.'</td>
+                                    <td> <a href="backemp-preview-forder.php?ordNo='.$orderNo.'&page=complete" class="btn btn-secondary">Preview Order</a>    
+                                    </td>
+                                </tr>
+                                ';
+                            } else {
+                                echo '<tr>
+                                    <th scope="row">'.$orderNo.'</th>
+                                    <td>'.$Fam_id.'</td>
+                                    <td>'.$p.'</td>
+                                    <td>'.$c.'</td>
+                                    <td>'.$date.' '.$time.'</td>
+                                    <td>'.$type.'</td>
+                                    <td> <a href="backemp-preview-corder.php?ordNo='.$orderNo.'&page=complete" class="btn btn-secondary">Preview Order</a>    
+                                    </td>
+                                </tr>
+                                ';
+                            }
+                          
                             
                         }
                     }
