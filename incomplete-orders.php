@@ -38,7 +38,7 @@
                     $user = $_SESSION['Emp_id'];
                     $sql = "Select O.order_no, O.picked_up, O.Bemp_id, O.Type
                             From `Order` as O
-                            WHERE O.picked_up = 0 and o.Bemp_id='$user' ";
+                            WHERE O.picked_up = 0 and o.Bemp_id='$user' and O.Ready_for_pick_up = 0";
                     $result=mysqli_query($con, $sql);
 
                     if($result){
@@ -47,15 +47,27 @@
                             $pickedUp = $row['picked_up'];
                             $bempId = $row['Bemp_id'];
                             $type = $row['Type'];
-                            echo '<tr>
-                                <th scope="row">'.$orderNo.'</th>
-                                <td>'.$pickedUp.'</td>
-                                <td>'.$bempId.'</td>
-                                <td>'.$type.'</td>
-                                <td> <a href="backemp-preview-forder.php?ordNo='.$orderNo.'&page=incomplete"" class="btn btn-secondary">Preview Order</a>
-                                </td>
-                            </tr>
-                            ';
+                            if ($type == "Food") {
+                              echo '<tr>
+                                  <th scope="row">'.$orderNo.'</th>
+                                  <td>'.$pickedUp.'</td>
+                                  <td>'.$bempId.'</td>
+                                  <td>'.$type.'</td>
+                                  <td> <a href="backemp-preview-forder.php?ordNo='.$orderNo.'&page=incomplete"" class="btn btn-secondary">Preview Order</a>
+                                  </td>
+                              </tr>
+                              ';
+                          } else {
+                              echo '<tr>
+                                  <th scope="row">'.$orderNo.'</th>
+                                  <td>'.$pickedUp.'</td>
+                                  <td>'.$bempId.'</td>
+                                  <td>'.$type.'</td>
+                                  <td> <a href="backemp-preview-corder.php?ordNo='.$orderNo.'&page=incomplete"" class="btn btn-secondary">Preview Order</a>
+                                  </td>
+                              </tr>
+                              ';
+                          }
                         }
                     }
                 ?>

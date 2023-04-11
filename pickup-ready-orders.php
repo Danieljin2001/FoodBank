@@ -13,7 +13,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Completed and Picked up Orders</title>
+    <title>Orders Ready for Pick up</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
   </head>
   <body>
@@ -22,7 +22,7 @@
         <a href="logout.php" class="btn btn-primary m-2">Logout</a>
     </div>
 
-    <h1 class="text-center mt-5">Completed and Picked up Orders</h1> 
+    <h1 class="text-center mt-5">Orders Ready for Pick up</h1> 
     <div class="container mt-5">
         <table class="table table-striped">
             <thead>
@@ -38,7 +38,7 @@
                     $user = $_SESSION['Emp_id'];
                     $sql = "Select O.order_no, O.picked_up, O.Bemp_id, O.Type
                             From `Order` as O
-                            WHERE O.picked_up = 1";
+                            WHERE O.picked_up = 0 and o.Bemp_id='$user' and O.Ready_for_pick_up = 1";
                     $result=mysqli_query($con, $sql);
 
                     if($result){
@@ -47,16 +47,27 @@
                             $pickedUp = $row['picked_up'];
                             $bempId = $row['Bemp_id'];
                             $type = $row['Type'];
-                            echo '<tr>
-                                <th scope="row">'.$orderNo.'</th>
-                                <td>'.$pickedUp.'</td>
-                                <td>'.$bempId.'</td>
-                                <td>'.$type.'</td>
-                                <td> <a href="backemp-preview-forder.php?ordNo='.$orderNo.'&page=complete"" class="btn btn-secondary">Preview Order</a>
-                                </td>
-                            </tr>
-                            ';
-                            
+                            if ($type == "Food") {
+                                echo '<tr>
+                                    <th scope="row">'.$orderNo.'</th>
+                                    <td>'.$pickedUp.'</td>
+                                    <td>'.$bempId.'</td>
+                                    <td>'.$type.'</td>
+                                    <td> <a href="backemp-preview-forder.php?ordNo='.$orderNo.'&page=pickup-ready"" class="btn btn-secondary">Preview Order</a>
+                                    </td>
+                                </tr>
+                                ';
+                            } else {
+                                echo '<tr>
+                                    <th scope="row">'.$orderNo.'</th>
+                                    <td>'.$pickedUp.'</td>
+                                    <td>'.$bempId.'</td>
+                                    <td>'.$type.'</td>
+                                    <<td> <a href="backemp-preview-corder.php?ordNo='.$orderNo.'&page=pickup-ready"" class="btn btn-secondary">Preview Order</a>   
+                                    </td>
+                                </tr>
+                                ';
+                            }
                         }
                     }
                 ?>
