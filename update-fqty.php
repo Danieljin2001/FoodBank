@@ -32,79 +32,35 @@
 
     if(isset($_POST['update'])){
       $qty = $_POST['qty'];
-      $update_qty = $qty-$prev_qty;
+      if(!empty($qty)){
 
-      if($update_qty > 0){ //adding
-        $result2;
         
-
-        $sql1="select *
-        from `food`
-        where name='$name'";
-        $result1 = mysqli_query($con, $sql1);
-        $row=mysqli_fetch_assoc($result1);
-        $type = $row['type'];
-        $calories = $row['calories'];
-        for($x=0; $x < $update_qty; $x++){ //insert into food 
-          $f_id = GUID();
-          $sql2 ="insert into `food` (Food_id, name, type, calories)
-          values ('$f_id','$name', '$type', '$calories')";
-          $result2 =mysqli_query($con, $sql2);
-          if(!$result2){
-            die(mysqli_error($con));
-            break;
-          }
-        }
-
-        $sql3="select COUNT(name) as qty
-        from `food`
-        where name='$name' and Forder_no IS NULL";
-        $result3 = mysqli_query($con, $sql3);
-        $row3=mysqli_fetch_assoc($result3);
-        $count = $row3['qty'];
-
-        $sql="update `food_inventory` set qty='$count' where name='$name'";
-        $result = mysqli_query($con, $sql);
-
-        if($result && $result1 && $result2 && $result3){
-          header('location:replenishF.php');
-        } else {
-          die(mysqli_error($con));
-        }
         
-      } else if ($update_qty == 0){ //when its the same
-        header('location:replenishF.php');
-      }else{ //minus
-        $update_qty *= -1;
-        
-        $sql3="select COUNT(name) as qty 
-        from `food`
-        where name='$name'";
-        $result3 = mysqli_query($con, $sql3);
-        $row3=mysqli_fetch_assoc($result3);
-        $count = $row3['qty'];
+        $update_qty = $qty-$prev_qty;
 
-
-        if($update_qty == $prev_qty && $count==$prev_qty){ //when its 0
-          $sql="delete from `food` where name='$name' limit $update_qty";
-          $result = mysqli_query($con, $sql);
-          $sql1="delete from `replenish_f` where name='$name'";
-          $result1 = mysqli_query($con, $sql1);
-
-          $sql2="delete from `food_inventory` where name='$name'";
-          $result2 = mysqli_query($con, $sql2);
-          if($result && $result1 && $result2){
-            header('location:replenishF.php');
-          } else {
-            die(mysqli_error($con));
-          }
-        } else{
+        if($update_qty > 0){ //adding
+          $result2;
           
-  
-          $sql1="delete from `food` where name='$name' and Forder_no IS NULL limit $update_qty";
+
+          $sql1="select *
+          from `food`
+          where name='$name'";
           $result1 = mysqli_query($con, $sql1);
-          
-          $sql3="select COUNT(name) as qty 
+          $row=mysqli_fetch_assoc($result1);
+          $type = $row['type'];
+          $calories = $row['calories'];
+          for($x=0; $x < $update_qty; $x++){ //insert into food 
+            $f_id = GUID();
+            $sql2 ="insert into `food` (Food_id, name, type, calories)
+            values ('$f_id','$name', '$type', '$calories')";
+            $result2 =mysqli_query($con, $sql2);
+            if(!$result2){
+              die(mysqli_error($con));
+              break;
+            }
+          }
+
+          $sql3="select COUNT(name) as qty
           from `food`
           where name='$name' and Forder_no IS NULL";
           $result3 = mysqli_query($con, $sql3);
@@ -114,13 +70,62 @@
           $sql="update `food_inventory` set qty='$count' where name='$name'";
           $result = mysqli_query($con, $sql);
 
-
-          if($result && $result1 && $result3){
+          if($result && $result1 && $result2 && $result3){
             header('location:replenishF.php');
           } else {
             die(mysqli_error($con));
           }
-        } 
+          
+        } else if ($update_qty == 0){ //when its the same
+          header('location:replenishF.php');
+        }else{ //minus
+          $update_qty *= -1;
+          
+          $sql3="select COUNT(name) as qty 
+          from `food`
+          where name='$name'";
+          $result3 = mysqli_query($con, $sql3);
+          $row3=mysqli_fetch_assoc($result3);
+          $count = $row3['qty'];
+
+
+          if($update_qty == $prev_qty && $count==$prev_qty){ //when its 0
+            $sql="delete from `food` where name='$name' limit $update_qty";
+            $result = mysqli_query($con, $sql);
+            $sql1="delete from `replenish_f` where name='$name'";
+            $result1 = mysqli_query($con, $sql1);
+
+            $sql2="delete from `food_inventory` where name='$name'";
+            $result2 = mysqli_query($con, $sql2);
+            if($result && $result1 && $result2){
+              header('location:replenishF.php');
+            } else {
+              die(mysqli_error($con));
+            }
+          } else{
+            
+    
+            $sql1="delete from `food` where name='$name' and Forder_no IS NULL limit $update_qty";
+            $result1 = mysqli_query($con, $sql1);
+            
+            $sql3="select COUNT(name) as qty 
+            from `food`
+            where name='$name' and Forder_no IS NULL";
+            $result3 = mysqli_query($con, $sql3);
+            $row3=mysqli_fetch_assoc($result3);
+            $count = $row3['qty'];
+
+            $sql="update `food_inventory` set qty='$count' where name='$name'";
+            $result = mysqli_query($con, $sql);
+
+
+            if($result && $result1 && $result3){
+              header('location:replenishF.php');
+            } else {
+              die(mysqli_error($con));
+            }
+          } 
+        }
       }
       
     }

@@ -33,83 +33,30 @@
 
     if(isset($_POST['update'])){
       $qty = $_POST['qty'];
-      $update_qty = $qty-$prev_qty;
+      if(!empty($qty)){
+        $update_qty = $qty-$prev_qty;
 
 
-      if($update_qty > 0){ //adding
-        $result2;
+        if($update_qty > 0){ //adding
+          $result2;
 
-        $sql1="select *
-        from `clothe`
-        where type='$type' and size='$size' and gender = '$gender'";
-        $result1 = mysqli_query($con, $sql1);
-        $row=mysqli_fetch_assoc($result1);
-        $desc = $row['description'];
-
-        for($x=0; $x < $update_qty; $x++){ //insert into food 
-          $c_id = GUID();
-          $sql2 ="insert into `clothe` (Clothe_id, type, size, gender, description)
-          values ('$c_id','$type', '$size', '$gender', '$desc')";
-          $result2 =mysqli_query($con, $sql2);
-          if(!$result2){
-            die(mysqli_error($con));
-            break;
-          }
-        }
-
-        $sql3="select COUNT(Clothe_id) as qty 
-        from `clothe`
-        where type='$type' and size='$size' and gender = '$gender' and Corder_no IS NULL";
-        $result3 = mysqli_query($con, $sql3);
-        $row3=mysqli_fetch_assoc($result3);
-        $count = $row3['qty'];
-
-        $sql="update `clothing_inventory` set qty='$count' where type='$type' and size='$size' and gender = '$gender'";
-        $result = mysqli_query($con, $sql);
-
-
-
-        if($result && $result1 && $result2 && $result3){
-          header('location:replenishC.php');
-        } else {
-          die(mysqli_error($con));
-        }
-        
-      } else if ($update_qty == 0){ //when its the same
-        header('location:replenishC.php');
-      }else{ //minus
-        $update_qty *= -1;
-
-        $sql3="select COUNT(Clothe_id) as qty
-        from `clothe`
-        where type='$type' and size='$size' and gender = '$gender'";
-        $result3 = mysqli_query($con, $sql3);
-        $row3=mysqli_fetch_assoc($result3);
-        $count = $row3['qty'];
-
-        if($update_qty == $prev_qty && $count==$prev_qty){ //when its 0
-          $sql="delete from `clothe` 
-          where type='$type' and size='$size' and gender = '$gender' 
-          limit $update_qty";
-          $result = mysqli_query($con, $sql);
-
-          $sql1="delete from `replenish_c` 
+          $sql1="select *
+          from `clothe`
           where type='$type' and size='$size' and gender = '$gender'";
           $result1 = mysqli_query($con, $sql1);
+          $row=mysqli_fetch_assoc($result1);
+          $desc = $row['description'];
 
-          $sql2="delete from `clothing_inventory` 
-          where type='$type' and size='$size' and gender = '$gender'";
-          $result2 = mysqli_query($con, $sql2);
-          if($result && $result1 && $result2){
-            header('location:replenishC.php');
-          } else {
-            die(mysqli_error($con));
+          for($x=0; $x < $update_qty; $x++){ //insert into food 
+            $c_id = GUID();
+            $sql2 ="insert into `clothe` (Clothe_id, type, size, gender, description)
+            values ('$c_id','$type', '$size', '$gender', '$desc')";
+            $result2 =mysqli_query($con, $sql2);
+            if(!$result2){
+              die(mysqli_error($con));
+              break;
+            }
           }
-        } else{
-          $sql1="delete from `clothe` 
-          where type='$type' and size='$size' and gender = '$gender' and Corder_no IS NULL 
-          limit $update_qty";
-          $result1 = mysqli_query($con, $sql1);
 
           $sql3="select COUNT(Clothe_id) as qty 
           from `clothe`
@@ -118,16 +65,71 @@
           $row3=mysqli_fetch_assoc($result3);
           $count = $row3['qty'];
 
-          $sql="update `clothing_inventory` set qty='$count' 
-          where type='$type' and size='$size' and gender = '$gender'";
+          $sql="update `clothing_inventory` set qty='$count' where type='$type' and size='$size' and gender = '$gender'";
           $result = mysqli_query($con, $sql);
 
-          if($result && $result1 && $result3){
+
+
+          if($result && $result1 && $result2 && $result3){
             header('location:replenishC.php');
           } else {
-            die(mysqli_error($conn));
+            die(mysqli_error($con));
           }
-        } 
+          
+        } else if ($update_qty == 0){ //when its the same
+          header('location:replenishC.php');
+        }else{ //minus
+          $update_qty *= -1;
+
+          $sql3="select COUNT(Clothe_id) as qty
+          from `clothe`
+          where type='$type' and size='$size' and gender = '$gender'";
+          $result3 = mysqli_query($con, $sql3);
+          $row3=mysqli_fetch_assoc($result3);
+          $count = $row3['qty'];
+
+          if($update_qty == $prev_qty && $count==$prev_qty){ //when its 0
+            $sql="delete from `clothe` 
+            where type='$type' and size='$size' and gender = '$gender' 
+            limit $update_qty";
+            $result = mysqli_query($con, $sql);
+
+            $sql1="delete from `replenish_c` 
+            where type='$type' and size='$size' and gender = '$gender'";
+            $result1 = mysqli_query($con, $sql1);
+
+            $sql2="delete from `clothing_inventory` 
+            where type='$type' and size='$size' and gender = '$gender'";
+            $result2 = mysqli_query($con, $sql2);
+            if($result && $result1 && $result2){
+              header('location:replenishC.php');
+            } else {
+              die(mysqli_error($con));
+            }
+          } else{
+            $sql1="delete from `clothe` 
+            where type='$type' and size='$size' and gender = '$gender' and Corder_no IS NULL 
+            limit $update_qty";
+            $result1 = mysqli_query($con, $sql1);
+
+            $sql3="select COUNT(Clothe_id) as qty 
+            from `clothe`
+            where type='$type' and size='$size' and gender = '$gender' and Corder_no IS NULL";
+            $result3 = mysqli_query($con, $sql3);
+            $row3=mysqli_fetch_assoc($result3);
+            $count = $row3['qty'];
+
+            $sql="update `clothing_inventory` set qty='$count' 
+            where type='$type' and size='$size' and gender = '$gender'";
+            $result = mysqli_query($con, $sql);
+
+            if($result && $result1 && $result3){
+              header('location:replenishC.php');
+            } else {
+              die(mysqli_error($conn));
+            }
+          } 
+        }
       }
       
     }
