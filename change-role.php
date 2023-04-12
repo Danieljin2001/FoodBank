@@ -4,18 +4,25 @@
     if(!isset($_SESSION['username']) || $_SESSION['role'] != "Supervisor"){
       header('location:signin.php');
     }
-    $username = $_SESSION['username'];
+    $emp_id = $_SESSION['Emp_id'];
     $sql0 = $sql="Select *
     from `employee`
-    where username ='$username'";
+    where Emp_id ='$emp_id'";
     $result0=mysqli_query($con, $sql0);
     $row0=mysqli_fetch_assoc($result0);
     $fname = $row0['Fname'];
     $lname = $row0['Lname'];
     $role0 = $row0['role'];
+    $success = 0;
+?>
+
+<?php
     if(isset($_GET['emp'])){
+        $fname1;
+        $lname1;
+        $role;
+
         $id = $_GET['emp'];
-        $success = 0;
         $sql="Select *
         from `employee`
         where Emp_id='$id'";
@@ -37,12 +44,39 @@
           $sql0 = "update `employee` set Semp_id = NULL where Emp_id='$id'";
           $result0 = mysqli_query($con, $sql0);
           $sql1 = "update `employee` set role='$role1' where Emp_id='$id'";
+
+          if ($role == "Back"){
+            $sql4 = "delete from `back_employee` where Bemp_id='$id'";
+            $result4 = mysqli_query($con, $sql4);
+
+          } else if ($role == "Front"){
+            $sql4 = "delete from `front_employee` where Femp_id='$id'";
+            $result4 = mysqli_query($con, $sql4);
+          }
+          $success = 1;   
         }
         else{
+          if ($role == "Back" && $role1 == "Front"){
+            $sql4 = "delete from `back_employee` where Bemp_id='$id'";
+            $result4 = mysqli_query($con, $sql4);
+
+            $sql5 = "insert into `front_employee` (Femp_id) values ('$id')";
+            $result5 = mysqli_query($con, $sql5);
+
+          } else if ($role == "Front" && $role1 == "Back"){
+            $sql4 = "delete from `front_employee` where Femp_id='$id'";
+            $result4 = mysqli_query($con, $sql4);
+
+            $sql5 = "insert into `back_employee` (Bemp_id) values ('$id')";
+            $result5 = mysqli_query($con, $sql5);
+          }
           $sql1 = "update `employee` set role='$role1' where Emp_id='$id'";
+          $result1 = mysqli_query($con, $sql1);
+          $success = 1;
+          
         } 
-        $result1 = mysqli_query($con, $sql1);
-        $success = 1;
+        
+        
     }
 
 ?>

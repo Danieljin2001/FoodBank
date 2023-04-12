@@ -34,7 +34,15 @@
                     $result =mysqli_query($con, $sql);
 
                     if($result){
-                        $success = 1;
+                        $semp_id = mysqli_insert_id($con);
+                        $sql1 ="insert into `supervisor` (Semp_id)
+                        values ('$semp_id')";
+                        $result1 =mysqli_query($con, $sql1);
+                        if($result1) {
+                          $success = 1;
+                        } else {
+                          die(mysqli_error($con));
+                        }
                     } else {
                         die(mysqli_error($con));
                     }
@@ -45,7 +53,30 @@
                     $result =mysqli_query($con, $sql);
 
                     if($result){
-                        $success = 1;
+                        if($role == "Back"){
+                          $bemp_id = mysqli_insert_id($con);
+                          $sql1 ="insert into `back_employee` (Bemp_id)
+                          values ('$bemp_id')";
+                          $result1 =mysqli_query($con, $sql1);
+                          if($result1) {
+                            $success = 1;
+                          } else {
+                            die(mysqli_error($con));
+                          }
+
+                        } else {
+                          $femp_id = mysqli_insert_id($con);
+                          $sql1 ="insert into `front_employee` (Femp_id)
+                          values ('$femp_id')";
+                          $result1 =mysqli_query($con, $sql1);
+                          if($result1) {
+                            $success = 1;
+                          } else {
+                            die(mysqli_error($con));
+                          }
+
+                        }
+                        
                     } else {
                         die(mysqli_error($con));
                     }

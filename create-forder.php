@@ -80,6 +80,10 @@
     $order_id;
     if (mysqli_query($con, $sql)) {
         $order_id = mysqli_insert_id($con);
+        $sql1 = "insert into `F_Order`(Forder_no) values ('$order_id')";
+        if (!mysqli_query($con, $sql1)){
+            die(mysqli_error($con));
+        }
       } else {
         die(mysqli_error($con));
       }
