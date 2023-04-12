@@ -14,6 +14,7 @@
     $lname = $row0['Lname'];
     $role0 = $row0['role'];
     $success = 0;
+    $invalid = 0;
 ?>
 
 <?php
@@ -40,7 +41,10 @@
 <?php
     if(isset($_POST['change'])){
         $role1 = $_POST['change-role'];
-        if ($role1 == "Supervisor"){
+        if (empty($role1)){
+          $invalid = 1;
+        }
+        else if ($role1 == "Supervisor"){
           $sql0 = "update `employee` set Semp_id = NULL where Emp_id='$id'";
           $result0 = mysqli_query($con, $sql0);
           $sql1 = "update `employee` set role='$role1' where Emp_id='$id'";
@@ -98,6 +102,13 @@
       </div>';
       }
     ?>
+    <?php
+      if($invalid){
+        echo '<div class="alert alert-danger" role="alert">
+        <strong>Error </strong> Please select a role.
+      </div>';
+      }
+    ?>
     <div class="d-flex justify-content-between">
       <a href="employees.php" class="btn btn-primary m-2">Back</a>  
         <div class="dropdown m-2">
@@ -120,7 +131,7 @@
             <div class="mb-3">
                 <label class="form-label mt-4">Select a role</label>
                 <select name="change-role" class="form-select" multiple aria-label="multiple select example">
-                <option>Front</option>
+                <option selected>Front</option>
                 <option>Back</option>
                 <option>Supervisor</option>
                 </select>
