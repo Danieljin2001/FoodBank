@@ -44,7 +44,7 @@
         $qty = $_POST['quantity'];
         $id = $_SESSION['Emp_id']; //supervisor is who ever is making the clothe
         
-        if(empty($type) || empty($size) || empty($gender) || empty($desc)|| empty($qty)){
+        if(empty($type) || empty($size) || empty($gender) || empty($desc)|| empty($qty) || $qty == 0){
             $invalid = 1;
         } else {
             $sql = "Select * from `clothing_inventory` where type='$type' and size='$size' and gender='$gender'";
@@ -105,7 +105,7 @@
     <?php
       if($invalid){
         echo '<div class="alert alert-danger" role="alert">
-        <strong>Error </strong> Please fill in the information for all the fields.
+        <strong>Error </strong> Please fill in the information for all the fields and quantity must be greater than 0.
       </div>';
       }
     ?>

@@ -42,7 +42,7 @@
         $qty = $_POST['quantity'];
         $id = $_SESSION['Emp_id']; //supervisor is who ever is making the food
         
-        if(empty($name) || empty($type) || empty($calories) || empty($qty)){
+        if(empty($name) || empty($type) || empty($calories) || empty($qty) || $qty==0){
             $invalid = 1;
         } else {
             $sql = "Select * from `food_inventory` where name='$name'";
@@ -105,7 +105,7 @@
     <?php
       if($invalid){
         echo '<div class="alert alert-danger" role="alert">
-        <strong>Error </strong> Please fill in the information for all the fields.
+        <strong>Error </strong> Please fill in the information for all the fields and quantity must be greater than 0.
       </div>';
       }
     ?>
