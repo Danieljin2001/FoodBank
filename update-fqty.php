@@ -32,7 +32,7 @@
 
     if(isset($_POST['update'])){
       $qty = $_POST['qty'];
-      if(!empty($qty)){
+     
 
         
         
@@ -126,7 +126,7 @@
             }
           } 
         }
-      }
+      
       
     }
     include 'connect.php';

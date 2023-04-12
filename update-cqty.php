@@ -33,7 +33,7 @@
 
     if(isset($_POST['update'])){
       $qty = $_POST['qty'];
-      if(!empty($qty)){
+      
         $update_qty = $qty-$prev_qty;
 
 
@@ -130,7 +130,7 @@
             }
           } 
         }
-      }
+      
       
     }
     include 'connect.php';
