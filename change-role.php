@@ -48,7 +48,7 @@
           $sql0 = "update `employee` set Semp_id = NULL where Emp_id='$id'";
           $result0 = mysqli_query($con, $sql0);
           $sql1 = "update `employee` set role='$role1' where Emp_id='$id'";
-
+          $result1 = mysqli_query($con, $sql1);
           if ($role == "Back"){
             $sql4 = "delete from `back_employee` where Bemp_id='$id'";
             $result4 = mysqli_query($con, $sql4);
@@ -57,6 +57,10 @@
             $sql4 = "delete from `front_employee` where Femp_id='$id'";
             $result4 = mysqli_query($con, $sql4);
           }
+
+          $sql2 = "insert into `supervisor` (Semp_id) values ('$id')";
+          $result2 = mysqli_query($con, $sql2);
+
           $success = 1;   
         }
         else{
