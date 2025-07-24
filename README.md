@@ -7,6 +7,8 @@ Supervisors can update and add foods/clothes to the database. They can also see 
 
 This website uses a PHP and Javascript, with a MySQL dattabase. Bootstrap was also used for the frontend.
 
+***** DATABASE STRUCTURE WAS CREATED ER DIAGRAM PRACTICES --- READ BELOW *****
+
 LOGIN PAGE
 ![Login](https://github.com/user-attachments/assets/1db4fc68-0773-4869-914f-e4c238f5b90a)
 
@@ -25,3 +27,16 @@ In order to run this you must:
 - Click the "start" button to run "MySQL" module
 - Open browser
 - Go to: http://localhost/FoodBank/signin.php
+
+PROJECT PROPOSAL
+[Project Proposal.pdf](https://github.com/user-attachments/files/21409891/Project.Proposal.pdf)
+
+
+ORDER FOOD SEQUENCE DIAGRAM
+[Order food sequence diagram.pdf](https://github.com/user-attachments/files/21409889/Order.food.sequence.diagram.pdf)
+
+REPLENSIH FOOD SEQUENCE DIAGRAM
+[Replenish food Sequence Diagram.pdf](https://github.com/user-attachments/files/21409901/Replenish.food.Sequence.Diagram.pdf)
+
+UML DIAGRAM
+[UML Diagram.pdf](https://github.com/user-attachments/files/21409911/UML.Diagram.pdf)
